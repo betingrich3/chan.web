@@ -1,0 +1,234 @@
+<%- include('layouts/layout', { title: 'Profile', user, darkMode }) %>
+
+<div class="profile-container">
+    <div class="profile-header">
+        <h1>Your Profile</h1>
+        <p>Manage your account information and settings</p>
+        
+        <% if (success) { %>
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle"></i> <%= success %>
+            </div>
+        <% } %>
+        
+        <% if (error) { %>
+            <div class="alert alert-error">
+                <i class="fas fa-exclamation-circle"></i> <%= error %>
+            </div>
+        <% } %>
+    </div>
+    
+    <div class="profile-content">
+        <form action="/profile" method="POST" enctype="multipart/form-data">
+            <div class="avatar-upload">
+                <div class="avatar-preview">
+                    <img src="<%= user.profilePic || '/images/default-avatar.jpg' %>" id="avatarPreview">
+                </div>
+                <div class="avatar-edit">
+                    <input type="file" id="avatarUpload" name="profilePic" accept="image/*">
+                    <label for="avatarUpload">
+                        <i class="fas fa-camera"></i> Change Photo
+                    </label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" value="<%= user.username %>">
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" value="<%= user.email %>" readonly>
+                <small>Contact support to change your email</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="currentPassword">Current Password</label>
+                <input type="password" id="currentPassword" name="currentPassword">
+            </div>
+            
+            <div class="form-group">
+                <label for="newPassword">New Password</label>
+                <input type="password" id="newPassword" name="newPassword">
+            </div>
+            
+            <div class="form-group">
+                <label for="confirmPassword">Confirm New Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword">
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
+                <a href="/chat" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .profile-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    
+    .profile-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    
+    .profile-header h1 {
+        color: var(--primary-color);
+        margin-bottom: 10px;
+    }
+    
+    .alert {
+        padding: 15px;
+        border-radius: 5px;
+        margin: 20px 0;
+    }
+    
+    .alert-success {
+        background-color: rgba(46, 204, 113, 0.1);
+        color: #2ecc71;
+        border: 1px solid rgba(46, 204, 113, 0.3);
+    }
+    
+    .alert-error {
+        background-color: rgba(231, 76, 60, 0.1);
+        color: #e74c3c;
+        border: 1px solid rgba(231, 76, 60, 0.3);
+    }
+    
+    .avatar-upload {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+    
+    .avatar-preview {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 3px solid var(--primary-color);
+        margin-bottom: 15px;
+    }
+    
+    .avatar-preview img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .avatar-edit input[type="file"] {
+        display: none;
+    }
+    
+    .avatar-edit label {
+        display: inline-block;
+        padding: 8px 15px;
+        background: var(--primary-color);
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    
+    .avatar-edit label:hover {
+        background: #0e786c;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+    }
+    
+    .form-group input {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid var(--border-color);
+        border-radius: 5px;
+        background: var(--message-bg);
+        color: var(--text-color);
+    }
+    
+    .form-group small {
+        font-size: 0.8rem;
+        color: #777;
+    }
+    
+    .form-actions {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+    }
+    
+    .btn {
+        padding: 12px 20px;
+        border-radius: 5px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .btn-primary {
+        background: var(--primary-color);
+        color: white;
+        border: none;
+    }
+    
+    .btn-primary:hover {
+        background: #0e786c;
+    }
+    
+    .btn-secondary {
+        background: var(--message-bg);
+        color: var(--text-color);
+        border: 1px solid var(--border-color);
+    }
+    
+    .btn-secondary:hover {
+        background: var(--sidebar-bg);
+    }
+</style>
+
+<script>
+    // Preview avatar before upload
+    document.getElementById('avatarUpload').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                document.getElementById('avatarPreview').src = event.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+    
+    // Password validation
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        
+        if (newPassword && newPassword !== confirmPassword) {
+            e.preventDefault();
+            alert('New passwords do not match!');
+        }
+    });
+</script>
