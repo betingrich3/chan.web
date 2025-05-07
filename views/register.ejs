@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - BBWhatsApp</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>BBWhatsApp</h1>
+                <p>Create your account</p>
+            </div>
+
+            <% if (error) { %>
+                <div class="alert error"><%= error %></div>
+            <% } %>
+
+            <form action="/register" method="POST" class="auth-form">
+                <div class="form-group">
+                    <input 
+                        type="text" 
+                        name="username" 
+                        placeholder="Username" 
+                        required
+                        value="<%= formData.username || '' %>"
+                    >
+                </div>
+                <div class="form-group">
+                    <input 
+                        type="email" 
+                        name="email" 
+                        placeholder="Email" 
+                        required
+                        value="<%= formData.email || '' %>"
+                    >
+                </div>
+                <div class="form-group" style="position: relative;">
+                    <input 
+                        type="password" 
+                        name="password" 
+                        placeholder="Password (min 6 characters)" 
+                        required
+                        minlength="6"
+                    >
+                    <i class="fas fa-eye password-toggle" id="togglePassword"></i>
+                    <div class="password-strength">
+                        <div class="password-strength-bar" id="passwordStrength"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input 
+                        type="password" 
+                        name="confirmPassword" 
+                        placeholder="Confirm Password" 
+                        required
+                        minlength="6"
+                    >
+                </div>
+                <button type="submit" class="btn">Register</button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Already have an account? <a href="/login">Login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle password visibility
+        document.querySelectorAll('.password-toggle').forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                const input = this.previousElementSibling;
+                const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+                input.setAttribute('type', type);
+                this.classList.toggle('fa-eye-slash');
+            });
+        });
+
+        // Password strength indicator
+        document.querySelector('input[name="password"]').addEventListener('input', function() {
+            const strengthBar = document.getElementById('passwordStrength');
+            const strength = calculatePasswordStrength(this.value);
+            
+            strengthBar.style.width = strength.percentage + '%';
+            strengthBar.style.backgroundColor = strength.color;
+        });
+
+        function calculatePasswordStrength(password) {
+            let strength = 0;
+            
+            // Length check
+            if (password.length > 0) strength += 10;
+            if (password.length >= 6) strength += 20;
+            if (password.length >= 8) strength += 20;
+            
+            // Complexity checks
+            if (/[A-Z]/.test(password)) strength += 15;
+            if (/[0-9]/.test(password)) strength += 15;
+            if (/[^A-Za-z0-9]/.test(password)) strength += 20;
+            
+            // Cap at 100
+            strength = Math.min(strength, 100);
+            
+            // Determine color
+            let color;
+            if (strength < 30) color = '#ef4444'; // red
+            else if (strength < 70) color = '#f59e0b'; // amber
+            else color = '#10b981'; // emerald
+            
+            return { percentage: strength, color };
+        }
+    </script>
+</body>
+</html>
