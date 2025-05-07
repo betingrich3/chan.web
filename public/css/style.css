@@ -1,0 +1,297 @@
+:root {
+  --primary-dark: #075e54;
+  --primary-light: #128c7e;
+  --accent-green: #25d366;
+  --dark-bg: #0b141a;
+  --chat-bg: #0b141a;
+  --sender-bg: #005c4b;
+  --receiver-bg: #202c33;
+  --text-light: #e9edef;
+  --text-muted: #8696a0;
+  --input-bg: #2a3942;
+  --border-color: rgba(255, 255, 255, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+}
+
+body {
+  background-color: var(--dark-bg);
+  color: var(--text-light);
+  height: 100vh;
+}
+
+/* ====================== */
+/* AUTH PAGES (NEW ADDITION) */
+/* ====================== */
+.auth-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  background-color: var(--dark-bg);
+}
+
+.auth-container {
+  width: 100%;
+  max-width: 400px;
+  background: var(--chat-bg);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border-color);
+}
+
+.auth-title {
+  color: var(--accent-green);
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+}
+
+.auth-form .form-group {
+  margin-bottom: 1.2rem;
+}
+
+.auth-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 12px 15px;
+  background: var(--input-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--text-light);
+  font-size: 0.95rem;
+}
+
+.auth-form input:focus {
+  outline: none;
+  border-color: var(--accent-green);
+}
+
+.auth-form input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+.auth-btn {
+  width: 100%;
+  padding: 12px;
+  background: var(--primary-dark);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 0.5rem;
+}
+
+.auth-btn:hover {
+  background: var(--primary-light);
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: var(--text-muted);
+}
+
+.auth-link {
+  color: var(--accent-green);
+  text-decoration: none;
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+}
+
+.error-message {
+  color: #ff6b6b;
+  font-size: 0.85rem;
+  margin-top: 0.3rem;
+}
+
+/* ====================== */
+/* CHAT PAGE (EXISTING STYLES) */
+/* ====================== */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* Header */
+.chat-header {
+  background: var(--primary-dark);
+  color: white;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.chat-header h1 {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.logout-btn {
+  color: white;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+/* Messages Area */
+.chat-messages {
+  flex: 1;
+  padding: 20px 10px 100px;
+  overflow-y: auto;
+  background: var(--chat-bg);
+  background-image: url('https://web.whatsapp.com/img/bg-chat-tile-dark_a4be512e7195b6b733d9110b408f075d.png');
+  background-blend-mode: overlay;
+}
+
+.message {
+  max-width: 75%;
+  padding: 6px 7px 8px 9px;
+  margin-bottom: 4px;
+  position: relative;
+  word-wrap: break-word;
+  border-radius: 7.5px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.own-message {
+  background: var(--sender-bg);
+  margin-left: auto;
+  border-top-right-radius: 0;
+  color: var(--text-light);
+}
+
+.received-message {
+  background: var(--receiver-bg);
+  margin-right: auto;
+  border-top-left-radius: 0;
+  color: var(--text-light);
+}
+
+.system-message {
+  margin: 10px auto;
+  text-align: center;
+  background: rgba(255,255,255,0.1);
+  max-width: 80%;
+  padding: 6px 12px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.meta {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  margin-bottom: 4px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.meta span {
+  color: var(--text-muted);
+  font-size: 0.7rem;
+}
+
+.text {
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+/* Input Area */
+.chat-form-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px 15px;
+  background: var(--input-bg);
+  border-top: 1px solid var(--border-color);
+}
+
+#chat-form {
+  display: flex;
+  align-items: center;
+  background: var(--dark-bg);
+  border-radius: 8px;
+  padding: 5px 10px;
+}
+
+#chat-form input {
+  flex: 1;
+  padding: 12px 15px;
+  background: transparent;
+  border: none;
+  color: var(--text-light);
+  font-size: 0.95rem;
+  outline: none;
+}
+
+#chat-form input::placeholder {
+  color: var(--text-muted);
+}
+
+#chat-form button {
+  background: transparent;
+  border: none;
+  color: var(--accent-green);
+  padding: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+/* Responsive Design */
+@media (min-width: 768px) {
+  .chat-container {
+    max-width: 800px;
+    margin: 0 auto;
+    height: 95vh;
+    margin-top: 20px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  }
+  
+  .chat-messages {
+    padding: 20px;
+  }
+  
+  .message {
+    max-width: 65%;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-container {
+    padding: 1.5rem;
+  }
+  
+  .auth-title {
+    font-size: 1.5rem;
+  }
+}
