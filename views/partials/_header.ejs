@@ -1,0 +1,9 @@
+<header class="app-header">
+    <div class="logo">BBWhatsApp</div>
+    <% if (user) { %>
+        <div class="user-controls">
+            <span><%= user.username %></span>
+            <a href="/logout" class="logout-btn">Logout</a>
+        </div>
+    <% } %>
+</header>
